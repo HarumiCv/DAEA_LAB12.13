@@ -94,7 +94,8 @@ namespace LAB14.Controllers
                 return NotFound();
             }
 
-            _context.Cursos.Remove(course);
+            course.IsActive = false;
+            _context.Cursos.Update(course);
             await _context.SaveChangesAsync();
 
             return NoContent();

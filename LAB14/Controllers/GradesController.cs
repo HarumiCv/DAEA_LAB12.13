@@ -94,7 +94,8 @@ namespace LAB14.Controllers
                 return NotFound();
             }
 
-            _context.Grados.Remove(grade);
+            grade.IsActive = false;
+            _context.Grados.Update(grade);
             await _context.SaveChangesAsync();
 
             return NoContent();

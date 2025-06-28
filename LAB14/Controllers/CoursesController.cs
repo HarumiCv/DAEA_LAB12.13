@@ -25,14 +25,14 @@ namespace LAB14.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Course>>> GetCursos()
         {
-            return await _context.Cursos.ToListAsync();
+            return await _context.Courses.ToListAsync();
         }
 
         // GET: api/Courses/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Course>> GetCourse(int id)
         {
-            var course = await _context.Cursos.FindAsync(id);
+            var course = await _context.Courses.FindAsync(id);
 
             if (course == null)
             {
@@ -78,7 +78,7 @@ namespace LAB14.Controllers
         [HttpPost]
         public async Task<ActionResult<Course>> PostCourse(Course course)
         {
-            _context.Cursos.Add(course);
+            _context.Courses.Add(course);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetCourse", new { id = course.CourseId }, course);
@@ -88,14 +88,14 @@ namespace LAB14.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCourse(int id)
         {
-            var course = await _context.Cursos.FindAsync(id);
+            var course = await _context.Courses.FindAsync(id);
             if (course == null)
             {
                 return NotFound();
             }
 
             course.IsActive = false;
-            _context.Cursos.Update(course);
+            _context.Courses.Update(course);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -103,7 +103,7 @@ namespace LAB14.Controllers
 
         private bool CourseExists(int id)
         {
-            return _context.Cursos.Any(e => e.CourseId == id);
+            return _context.Courses.Any(e => e.CourseId == id);
         }
     }
 }

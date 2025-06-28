@@ -25,14 +25,14 @@ namespace LAB14.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Grade>>> GetGrados()
         {
-            return await _context.Grados.ToListAsync();
+            return await _context.Grades.ToListAsync();
         }
 
         // GET: api/Grades/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Grade>> GetGrade(int id)
         {
-            var grade = await _context.Grados.FindAsync(id);
+            var grade = await _context.Grades.FindAsync(id);
 
             if (grade == null)
             {
@@ -78,7 +78,7 @@ namespace LAB14.Controllers
         [HttpPost]
         public async Task<ActionResult<Grade>> PostGrade(Grade grade)
         {
-            _context.Grados.Add(grade);
+            _context.Grades.Add(grade);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetGrade", new { id = grade.GradeId }, grade);
@@ -88,14 +88,14 @@ namespace LAB14.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGrade(int id)
         {
-            var grade = await _context.Grados.FindAsync(id);
+            var grade = await _context.Grades.FindAsync(id);
             if (grade == null)
             {
                 return NotFound();
             }
 
             grade.IsActive = false;
-            _context.Grados.Update(grade);
+            _context.Grades.Update(grade);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -103,7 +103,7 @@ namespace LAB14.Controllers
 
         private bool GradeExists(int id)
         {
-            return _context.Grados.Any(e => e.GradeId == id);
+            return _context.Grades.Any(e => e.GradeId == id);
         }
     }
 }

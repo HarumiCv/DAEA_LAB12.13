@@ -10,7 +10,10 @@ namespace LAB14.Data
         {
         }
 
-        public DbSet<Course> Cursos => Set<Course>();
-        public DbSet<Grade> Grados => Set<Grade>(); 
+        public DbSet<Course> Courses => Set<Course>();
+        public DbSet<Grade> Grades => Set<Grade>(); 
+        public DbSet<Enrollment> Enrollments => Set<Enrollment>();  
+        public DbSet<Student> Students => Set<Student>();   
+
     }
 }

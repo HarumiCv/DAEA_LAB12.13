@@ -7,5 +7,6 @@
         public int Credit { get; set; }
         public bool IsActive { get; set; }
 
+        public List<Enrollment> Enrollments { get; set; }
     }
 }

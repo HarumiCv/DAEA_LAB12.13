@@ -144,6 +144,8 @@ namespace LAB14.Controllers
             student.Email = request.Email;
 
             _context.SaveChanges();
+
+
         }
 
         [HttpPut("{id}")]

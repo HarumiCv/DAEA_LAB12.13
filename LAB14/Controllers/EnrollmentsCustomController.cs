@@ -115,5 +115,48 @@ namespace LAB14.Controllers
 
             return response;
         }
+
+        [HttpPost]
+        public void Enroll([FromBody] EnrollmentRequestV2 request)
+        {
+            var student = _context.Students.FirstOrDefault(s => s.StudentId == request.StudentId && s.IsActive);
+            if (student == null)
+            {
+                return;
+            }
+
+            var existingEnrollments = _context.Enrollments
+                .Where(e => e.StudentId == request.StudentId)
+                .ToList();
+
+            var existingCourseIds = existingEnrollments.Select(e => e.CourseId).ToList();
+
+            var newCourseIds = request.CourseIds
+                .Where(cid => !existingCourseIds.Contains(cid))
+                .ToList();
+
+            foreach (var enrollment in existingEnrollments)
+            {
+                if (request.CourseIds.Contains(enrollment.CourseId) && !enrollment.IsActive)
+                {
+                    enrollment.IsActive = true;
+                    enrollment.Date = DateTime.Now;
+                }
+            }
+
+            var newEnrollments = newCourseIds.Select(cid => new Enrollment
+            {
+                StudentId = request.StudentId,
+                CourseId = cid,
+                Date = DateTime.Now,
+                IsActive = true
+            }).ToList();
+
+            _context.Enrollments.AddRange(newEnrollments);
+            _context.SaveChanges();
+        }
+
+
+
     }
 }

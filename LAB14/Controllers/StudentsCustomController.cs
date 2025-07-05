@@ -103,5 +103,97 @@ namespace LAB14.Controllers
 
             return response;
         }
+
+        [HttpGet("{id}")]
+        public UserResponseV1 GetById(int id)
+        {
+            var student = _context.Students
+                .Include(s => s.Grade)
+                .FirstOrDefault(s => s.StudentId == id && s.IsActive && s.Grade.IsActive);
+
+            if (student == null)
+            {
+                return null; 
+            }
+
+            var response = new UserResponseV1
+            {
+                StudentId = student.StudentId,
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                Phone = student.Phone,
+                Email = student.Email,
+                GradeName = student.Grade.Name
+            };
+
+            return response;
+        }
+
+
+        [HttpPut("{id}")]
+        public void UpdateContactInfo(int id, [FromBody] UserRequestV2 request)
+        {
+            var student = _context.Students.FirstOrDefault(s => s.StudentId == id && s.IsActive);
+
+            if (student == null)
+            {
+                return;
+            }
+
+            student.Phone = request.Phone;
+            student.Email = request.Email;
+
+            _context.SaveChanges();
+        }
+
+        [HttpPut("{id}")]
+        public void UpdatePersonalInfo(int id, [FromBody] UserRequestV3 request)
+        {
+            var student = _context.Students.FirstOrDefault(s => s.StudentId == id && s.IsActive);
+
+            if (student == null)
+            {
+                return;
+            }
+
+            student.FirstName = request.FirstName;
+            student.LastName = request.LastName;
+
+            _context.SaveChanges();
+        }
+
+        [HttpGet("{id}")]
+        public UserResponseV3 GetCoursesByStudent(int id)
+        {
+            var student = _context.Students
+                .Include(s => s.Enrollments)
+                    .ThenInclude(e => e.Course)
+                .FirstOrDefault(s => s.StudentId == id && s.IsActive);
+
+            if (student == null)
+            {
+                return null;
+            }
+
+            var courses = student.Enrollments
+                .Where(e => e.IsActive && e.Course.IsActive)
+                .Select(e => new CourseResponseV1
+                {
+                    CourseId = e.Course.CourseId,
+                    Name = e.Course.Name,
+                    Credit = e.Course.Credit
+                }).ToList();
+
+            return new UserResponseV3
+            {
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                Phone = student.Phone,
+                Email = student.Email,
+                Courses = courses
+            };
+        }
+
+
     }
 }

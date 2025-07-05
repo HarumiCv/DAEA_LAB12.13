@@ -10,7 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DemoContext>(options =>
-    options.UseSqlServer("Data Source=LAB411-013\\SQLEXPRESS;Initial Catalog=lab14DB;Integrated Security=true;TrustServerCertificate=True;"));
+    options.UseSqlServer("Data Source=LAB411-003\\SQLEXPRESS;Initial Catalog=lab14DB;Integrated Security=true;TrustServerCertificate=True;"));
 
 var app = builder.Build(); 
 

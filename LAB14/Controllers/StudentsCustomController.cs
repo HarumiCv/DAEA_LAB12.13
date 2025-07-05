@@ -131,7 +131,7 @@ namespace LAB14.Controllers
 
 
         [HttpPut("{id}")]
-        public void UpdateContactInfo(int id, [FromBody] UserRequestV2 request)
+        public void ItActionResult UpdateContactInfo(int id, [FromBody] UserRequestV2 request)
         {
             var student = _context.Students.FirstOrDefault(s => s.StudentId == id && s.IsActive);
 
